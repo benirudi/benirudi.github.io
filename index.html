@@ -18,7 +18,7 @@
   --ink: #f8fafc;        /* light text color for dark backgrounds */
   --muted: #cbd5e1;      /* muted text used for secondary information */
   --base-900: #0c0a1e;   /* deep indigo */
-  --base-800: #141032;   /* purple‑indigo */
+  --base-800: #141032;   /* purple-indigo */
   --base-700: #1b1842;
   --glow-cyan: #37b9ff;
   --glow-teal: #21e6f3;
@@ -92,6 +92,13 @@ header .logo span.icon {
   margin-right: 0.5rem;
   font-weight: bold;
 }
+
+/* base nav layout */
+header nav {
+  display: flex;
+  align-items: center;
+}
+
 header nav a {
   margin-left: 1rem;
   color: var(--muted);
@@ -110,37 +117,98 @@ header nav a.button {
 header nav a.button:hover {
   opacity: 0.9;
 }
+
+/* Mobile navigation (hamburger) */
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 1.0rem 1.0rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--ink);
+  background: rgba(0,0,0,0.2);
+}
+
+.nav-toggle-label span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+  position: relative;
+}
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+}
+.nav-toggle-label span::before { top: -6px; }
+.nav-toggle-label span::after  { top:  6px; }
+
+/* desktop */
+@media (min-width: 768px) {
+  header nav {
+    display: flex;
+    align-items: center;
+  }
+  .nav-toggle-label {
+    display: none;
+  }
+}
+
+/* mobile */
+@media (max-width: 767px) {
+  header .container {
+    position: relative;
+  }
+  header nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.75rem 1rem 1rem;
+    background: linear-gradient(to bottom, rgba(14,12,38,0.95), rgba(14,12,38,0.85));
+    gap: 0.35rem;
+  }
+  header nav a {
+    margin-left: 0;
+  }
+  header nav .lang-switch {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+  .nav-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-toggle:checked + .nav-toggle-label + nav {
+    display: flex;
+  }
+}
+
 /* Hero Section */
-/*
-  The hero component now displays the entire abstract illustration in full color. To achieve this, we use
-  the first generated image as the background and remove the dark overlay that previously muted the colours.
-  A subtle gradient at the bottom improves text contrast without obscuring the artwork. The content is
-  positioned at the bottom of the hero so there’s a generous gap after the header, allowing visitors to
-  appreciate the image before encountering the copy. A logo is included at the top of the overlay for brand
-  recognition.
-*/
 .hero {
   position: relative;
   overflow: hidden;
-  /* Extend the hero height so there’s plenty of room to display the new background before
-     showing the tagline. A taller hero produces more breathing space between the header
-     and text. */
-  /* Occupy nearly the full viewport height so there’s generous space to display
-     the illustration between the header and the call-to-action text. */
   min-height: 100vh;
-  /* Use the new landscape illustration as the background. We cover the container and
-     centre it so the runner and energy lines remain the focal point. */
   background-image: url('images/WebsiteBackground.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: var(--white);
 }
-/* The background image is now a separate element so the full illustration can be displayed using
-   object-fit: contain. This ensures the entire artwork remains visible regardless of the
-   visitor’s screen size. */
-/* Remove the separate hero-bg element as we now set the image via CSS */
-/* Gradient overlay at the bottom for readability */
 .hero::after {
   content: '';
   position: absolute;
@@ -199,15 +267,11 @@ header nav a.button:hover {
   opacity: 0.9;
 }
 .hero .actions a.secondary {
-  /* Ghost/secondary button styling tuned to match the dark cosmic palette.  We avoid
-     bright, out-of-place colours by keeping the text light and the background subtly
-     translucent.  The border uses a faint white tint for gentle definition. */
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--ink);
   background: rgba(255, 255, 255, 0.08);
 }
 .hero .actions a.secondary:hover {
-  /* Slightly increase the translucency on hover for better affordance */
   background: rgba(255, 255, 255, 0.16);
 }
 .hero .feature-list {
@@ -233,15 +297,20 @@ header nav a.button:hover {
   border-radius: 50%;
   background: var(--white);
 }
+
+/* stack hero bullets on narrow screens */
+@media (max-width: 600px) {
+  .hero .feature-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Generic section styling */
 .section {
   padding: 4rem 1rem;
-  /* Dark gradient background for every section to harmonise with the cosmic theme */
   background: linear-gradient(180deg, var(--base-800), var(--base-900));
 }
-/* Light sections use a subtle gradient instead of plain white for a modern feel */
 .section.light {
-  /* Cosmic radial and linear gradients similar to the React sample */
   background:
     radial-gradient(40rem 26rem at 15% 10%, rgba(55,185,255,0.18), transparent 60%),
     radial-gradient(36rem 24rem at 85% 20%, rgba(33,230,243,0.16), transparent 60%),
@@ -320,7 +389,7 @@ header nav a.button:hover {
 .how .note strong {
   color: var(--primary);
 }
- /* Benefits */
+/* Benefits */
 .benefits-grid {
   display: grid;
   gap: 1.5rem;
@@ -363,10 +432,6 @@ header nav a.button:hover {
 .science .side-card ul li {
   margin-bottom: 0.5rem;
 }
-
-/* Ensure there is only a single bullet in the “What LTS is — and isn’t” list.  We
-   explicitly define the list style and indentation, eliminating the possibility of
-   duplicate bullets caused by errant characters or default styles. */
 .science .side-card ul {
   list-style: disc;
   padding-left: 1.25rem;
@@ -635,7 +700,6 @@ footer .disclaimer {
   background: rgba(255,255,255,0.06);
   backdrop-filter: saturate(140%) blur(6px);
 }
-
 .lang-btn {
   appearance: none;
   border: none;
@@ -648,12 +712,10 @@ footer .disclaimer {
   border-radius: 999px;
   cursor: pointer;
 }
-
 .lang-btn[aria-pressed="true"] {
   color: var(--ink);
   background: rgba(255,255,255,0.14);
 }
-
 @media (max-width: 480px) {
   .lang-switch { margin-left: 0.5rem; }
   .lang-btn { font-size: 0.8rem; padding: 0.25rem 0.5rem; }
@@ -664,11 +726,17 @@ footer .disclaimer {
 
 <header>
   <div class="container">
-    <!-- Replace the basic LTS square with the provided full-colour logo for brand consistency -->
     <a href="#home" class="logo">
       <img src="images/LTSLogo.png" alt="LTS Sport Support logo" class="header-logo" />
       <span>LTS Sport Support</span>
     </a>
+
+    <!-- mobile toggle -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Navigation umschalten">
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="Menü">
+      <span></span>
+    </label>
+
     <nav>
       <a href="#how">How it works</a>
       <a href="#benefits">Benefits</a>
@@ -677,29 +745,27 @@ footer .disclaimer {
       <a href="#contact" class="button">Contact</a>
 
       <!-- Language switcher -->
-        <div class="lang-switch" role="group" aria-label="Language">
-            <button class="lang-btn" data-lang="en" aria-pressed="true" title="English">EN</button>
-            <button class="lang-btn" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
-        </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-btn" data-lang="en" aria-pressed="true" title="English">EN</button>
+        <button class="lang-btn" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
+      </div>
     </nav>
   </div>
 </header>
 
 <section id="home" class="hero">
-  <!-- The background image is now applied via CSS, no separate image element is needed -->
   <div class="content">
-    <!-- Removed hero logo here to keep the focus on the new background illustration -->
     <h1>Faster recovery. Less fatigue.</h1>
     <h1>More performance.</h1>
-    <p>LTS (Light Technology System) Sport Support provides top athletes with additional relief from sports injuries and muscle fatigue. The Light Technology System uses bio‑optical channels—similar to acupuncture but without needles—to naturally promote the body’s own self‑healing system.</p>
+    <p>LTS (Light Technology System) Sport Support provides top athletes with additional relief from sports injuries and muscle fatigue. The Light Technology System uses bio-optical channels—similar to acupuncture but without needles—to naturally promote the body’s own self-healing system.</p>
     <div class="actions">
       <a href="#contact" class="primary">Talk to us</a>
       <a href="#how" class="secondary">How it works</a>
     </div>
     <ul class="feature-list">
-      <li><span class="bullet"></span> Drug‑free</li>
-      <li><span class="bullet"></span> Non‑invasive</li>
-      <li><span class="bullet"></span> Supports self‑healing</li>
+      <li><span class="bullet"></span> Drug-free</li>
+      <li><span class="bullet"></span> Non-invasive</li>
+      <li><span class="bullet"></span> Supports self-healing</li>
     </ul>
   </div>
 </section>
@@ -708,22 +774,22 @@ footer .disclaimer {
   <div class="container how">
     <div>
       <h2>How LTS works</h2>
-      <p>The Light Technology System uses active bio‑optical channels—similar in concept to acupuncture meridians in Traditional Chinese Medicine, but without needles—to interact with the body’s light‑information network. In injuries and fatigue, this information flow is disrupted; LTS aims to support restoration of healthy signaling so the body can do what it’s built to do: recover.</p>
+      <p>The Light Technology System uses active bio-optical channels—similar in concept to acupuncture meridians in Traditional Chinese Medicine, but without needles—to interact with the body’s light-information network. In injuries and fatigue, this information flow is disrupted; LTS aims to support restoration of healthy signaling so the body can do what it’s built to do: recover.</p>
       <ol class="steps">
-        <li><span class="step-number">1.</span> Targeted application along bio‑optical pathways related to the affected area.</li>
-        <li><span class="step-number">2.</span> Gentle, non‑electrical stimulation that works only with the body’s own energy.</li>
-        <li><span class="step-number">3.</span> Supported self‑regulation: normalized signaling can help reduce fatigue and speed natural recovery.</li>
+        <li><span class="step-number">1.</span> Targeted application along bio-optical pathways related to the affected area.</li>
+        <li><span class="step-number">2.</span> Gentle, non-electrical stimulation that works only with the body’s own energy.</li>
+        <li><span class="step-number">3.</span> Supported self-regulation: normalized signaling can help reduce fatigue and speed natural recovery.</li>
       </ol>
     </div>
     <div class="side-card">
-      <h3>Designed for high‑performance settings</h3>
+      <h3>Designed for high-performance settings</h3>
       <ul>
         <li>• Sprint and endurance recovery between training blocks</li>
         <li>• Muscle soreness and overuse management</li>
-        <li>• Support during return‑to‑play protocols</li>
-        <li>• On‑the‑go care at events and competitions</li>
+        <li>• Support during return-to-play protocols</li>
+        <li>• On-the-go care at events and competitions</li>
       </ul>
-      <div class="note"><strong>Note:</strong> LTS is a complementary wellness application used alongside standard sports‑medicine care.</div>
+      <div class="note"><strong>Note:</strong> LTS is a complementary wellness application used alongside standard sports-medicine care.</div>
     </div>
   </div>
 </section>
@@ -734,19 +800,19 @@ footer .disclaimer {
     <div class="benefits-grid">
       <div class="card">
         <h3>Accelerated recovery</h3>
-        <p>Supports the body’s natural self‑healing processes after intense effort or minor injuries.</p>
+        <p>Supports the body’s natural self-healing processes after intense effort or minor injuries.</p>
       </div>
       <div class="card">
         <h3>Reduced fatigue</h3>
         <p>Athletes report feeling fresher between sessions and competitions.</p>
       </div>
       <div class="card">
-        <h3>Non‑invasive & drug‑free</h3>
+        <h3>Non-invasive & drug-free</h3>
         <p>No chemicals, needles or electricity—just the body’s own energy.</p>
       </div>
       <div class="card">
         <h3>Easy to integrate</h3>
-        <p>Complements physiotherapy, massage and standard sports‑medicine protocols.</p>
+        <p>Complements physiotherapy, massage and standard sports-medicine protocols.</p>
       </div>
       <div class="card">
         <h3>Portable & efficient</h3>
@@ -764,7 +830,7 @@ footer .disclaimer {
   <div class="container science">
     <div>
       <h2>The science we build on</h2>
-      <p>Our approach is inspired by research into bio‑photons and light‑based cell communication, as explored by Prof. Dr. Fritz‑Albert Popp and others. LTS does not replace medical care; it’s a complementary method intended to support healthy regulation and recovery.</p>
+      <p>Our approach is inspired by research into bio-photons and light-based cell communication, as explored by Prof. Dr. Fritz-Albert Popp and others. LTS does not replace medical care; it’s a complementary method intended to support healthy regulation and recovery.</p>
       <p>We are developing partnerships with universities, practitioners and teams to expand observational data and case documentation in athletic settings.</p>
     </div>
     <div class="side-card">
@@ -772,7 +838,7 @@ footer .disclaimer {
       <ul>
         <li><strong>Is:</strong> a complementary recovery and wellness application.</li>
         <li><strong>Is not:</strong> a medical device or a substitute for professional diagnosis or treatment.</li>
-        <li><strong>Claims:</strong> We communicate responsibly and encourage evidence‑building with partners.</li>
+        <li><strong>Claims:</strong> We communicate responsibly and encourage evidence-building with partners.</li>
       </ul>
       <div class="alert"><strong>Disclaimer:</strong> Results vary. Always consult licensed health professionals for medical concerns.</div>
     </div>
@@ -784,7 +850,7 @@ footer .disclaimer {
     <h2>Safety & suitability</h2>
     <div class="safety-grid">
       <div class="card">
-        <h3>Non‑invasive</h3>
+        <h3>Non-invasive</h3>
         <p>No needles, chemicals or electricity. LTS uses only the body’s own energy.</p>
       </div>
       <div class="card">
@@ -810,18 +876,6 @@ footer .disclaimer {
         <p class="call">Or call: <span>+41 79 334 46 88</span></p>
       </div>
     </div>
-    <!-- Commented out until we decide if wanted
-    <form class="contact-form" onsubmit="event.preventDefault(); alert('This demo form does not submit. Replace with your email service or form tool.')">
-      <label for="cname">Name</label>
-      <input id="cname" type="text" placeholder="Your name" required>
-      <label for="cemail">Email</label>
-      <input id="cemail" type="email" placeholder="you@example.com" required>
-      <label for="cmessage">Message</label>
-      <textarea id="cmessage" rows="4" placeholder="Tell us about your athletes, clinic, or team" required></textarea>
-      <button type="submit">Send</button>
-      <p class="note">This demo form shows the layout only. Connect your own form provider (e.g., Formspree, Basin, or a serverless function) to receive messages.</p>
-    </form>
-    -->
   </div>
 </section>
 
@@ -842,349 +896,350 @@ footer .disclaimer {
   </p>
 </footer>
 
-
 <script>
-    (function () {
-      const PARAM = 'lang';
-      const DEFAULT_LANG = 'en';
-      const supported = new Set(['en', 'de']);
-    
-      const EN = {
-        'nav.how': 'How it works',
-        'nav.benefits': 'Benefits',
-        'nav.science': 'Science',
-        'nav.safety': 'Safety',
-        'nav.contact': 'Contact',
-        'hero.h1a': 'Faster recovery. Less fatigue.',
-        'hero.h1b': 'More performance.',
-        'hero.lead':
-          'LTS (Light Technology System) Sport Support provides top athletes with additional relief from sports injuries and muscle fatigue. The Light Technology System uses bio-optical channels—similar to acupuncture but without needles—to naturally promote the body’s own self-healing system.',
-        'hero.cta.primary': 'Talk to us',
-        'hero.cta.secondary': 'How it works',
-        'hero.bullet1': 'Drug-free',
-        'hero.bullet2': 'Non-invasive',
-        'hero.bullet3': 'Supports self-healing',
-        'how.title': 'How LTS works',
-        'how.p1':
-          'The Light Technology System uses active bio-optical channels—similar in concept to acupuncture meridians in Traditional Chinese Medicine, but without needles—to interact with the body’s light-information network. In injuries and fatigue, this information flow is disrupted; LTS aims to support restoration of healthy signaling so the body can do what it’s built to do: recover.',
-        'how.step1': 'Targeted application along bio-optical pathways related to the affected area.',
-        'how.step2': 'Gentle, non-electrical stimulation that works only with the body’s own energy.',
-        'how.step3': 'Supported self-regulation: normalized signaling can help reduce fatigue and speed natural recovery.',
-        'how.card.title': 'Designed for high-performance settings',
-        'how.card.li1': '• Sprint and endurance recovery between training blocks',
-        'how.card.li2': '• Muscle soreness and overuse management',
-        'how.card.li3': '• Support during return-to-play protocols',
-        'how.card.li4': '• On-the-go care at events and competitions',
-        'how.note.bold': 'Note:',
-        'how.note.text': ' LTS is a complementary wellness application used alongside standard sports-medicine care.',
-        'benefits.title': 'Benefits for athletes & practitioners',
-        'benefit.1.title': 'Accelerated recovery',
-        'benefit.1.text': 'Supports the body’s natural self-healing processes after intense effort or minor injuries.',
-        'benefit.2.title': 'Reduced fatigue',
-        'benefit.2.text': 'Athletes report feeling fresher between sessions and competitions.',
-        'benefit.3.title': 'Non-invasive & drug-free',
-        'benefit.3.text': 'No chemicals, needles or electricity—just the body’s own energy.',
-        'benefit.4.title': 'Easy to integrate',
-        'benefit.4.text': 'Complements physiotherapy, massage and standard sports-medicine protocols.',
-        'benefit.5.title': 'Portable & efficient',
-        'benefit.5.text': 'Lightweight application designed for clinics, gyms and travel.',
-        'benefit.6.title': 'No known side effects',
-        'benefit.6.text': 'No foreign substances introduced; focused on supporting natural regulation.',
-        'science.title': 'The science we build on',
-        'science.p1':
-          'Our approach is inspired by research into bio-photons and light-based cell communication, as explored by Prof. Dr. Fritz-Albert Popp and others. LTS does not replace medical care; it’s a complementary method intended to support healthy regulation and recovery.',
-        'science.p2':
-          'We are developing partnerships with universities, practitioners and teams to expand observational data and case documentation in athletic settings.',
-        'science.card.title': 'What LTS is — and isn’t',
-        'science.card.li1': 'Is: a complementary recovery and wellness application.',
-        'science.card.li2': 'Is not: a medical device or a substitute for professional diagnosis or treatment.',
-        'science.card.li3': 'Claims: We communicate responsibly and encourage evidence-building with partners.',
-        'science.alert.bold': 'Disclaimer:',
-        'science.alert.text': ' Results vary. Always consult licensed health professionals for medical concerns.',
-        'safety.title': 'Safety & suitability',
-        'safety.card1.title': 'Non-invasive',
-        'safety.card1.text': 'No needles, chemicals or electricity. LTS uses only the body’s own energy.',
-        'safety.card2.title': 'No known side effects',
-        'safety.card2.text': 'No foreign materials are introduced that could trigger reactions in the energy system.',
-        'safety.card3.title': 'Used by professionals',
-        'safety.card3.text': 'Designed to support sports physiotherapists in caring for athletes.',
-        'contact.title': 'Get in touch',
-        'contact.p1':
-          'Interested in LTS for your clinic or team? Let’s talk about pilot programs, certifications, and practitioner training.',
-        'contact.email.label': 'Email us:',
-        'contact.phone.label': 'Or call: ',
-        'footer.link.research': 'Evidence & Research',
-        'footer.link.safety': 'Safety',
-        'footer.link.contact': 'Contact',
-        'footer.disclaimer':
-          'LTS is a complementary wellness application and does not diagnose, treat, cure, or prevent diseases. Always consult qualified professionals for medical decisions.',
-        'footer.rights': '© 2025 LTS Sport Support. All rights reserved.'
-      };
-    
-      const DE = {
-        'nav.how': 'So funktioniert es',
-        'nav.benefits': 'Vorteile',
-        'nav.science': 'Wissenschaft',
-        'nav.safety': 'Sicherheit',
-        'nav.contact': 'Kontakt',
-        'hero.h1a': 'Schnellere Regeneration. Weniger Müdigkeit.',
-        'hero.h1b': 'Mehr Leistung.',
-        'hero.lead':
-          'LTS (Light Technology System) Sport Support bietet Spitzenathletinnen und -athleten zusätzliche Unterstützung bei Sportverletzungen und Muskelermüdung. Das Light Technology System nutzt bio-optische Bahnen – ähnlich wie Akupunktur, jedoch ohne Nadeln – um die körpereigene Selbstheilung natürlich zu fördern.',
-        'hero.cta.primary': 'Kontakt aufnehmen',
-        'hero.cta.secondary': 'So funktioniert es',
-        'hero.bullet1': 'Ohne Medikamente',
-        'hero.bullet2': 'Nicht invasiv',
-        'hero.bullet3': 'Unterstützt die Selbstheilung',
-        'how.title': 'Wie LTS funktioniert',
-        'how.p1':
-          'Das Light Technology System nutzt aktive bio-optische Bahnen – in der Idee vergleichbar mit Akupunktur-Meridianen der Traditionellen Chinesischen Medizin, jedoch ohne Nadeln –, um mit dem Licht-Informationsnetz des Körpers zu interagieren. Bei Verletzungen und Müdigkeit ist dieser Informationsfluss gestört; LTS soll die Wiederherstellung gesunder Signalgebung unterstützen, damit der Körper tun kann, wozu er gemacht ist: sich erholen.',
-        'how.step1': 'Gezielte Anwendung entlang bio-optischer Bahnen, die mit dem betroffenen Bereich zusammenhängen.',
-        'how.step2': 'Sanfte, nicht-elektrische Stimulation, die ausschließlich mit der körpereigenen Energie arbeitet.',
-        'how.step3': 'Unterstützte Selbstregulation: Normalisierte Signalwege können Müdigkeit verringern und die natürliche Regeneration beschleunigen.',
-        'how.card.title': 'Für Hochleistungs-Umgebungen entwickelt',
-        'how.card.li1': '• Regeneration für Sprint und Ausdauer zwischen Trainingsblöcken',
-        'how.card.li2': '• Umgang mit Muskelkater und Überlastung',
-        'how.card.li3': '• Unterstützung während Return-to-Play-Protokollen',
-        'how.card.li4': '• Unterwegs-Betreuung bei Events und Wettkämpfen',
-        'how.note.bold': 'Hinweis:',
-        'how.note.text': ' LTS ist eine ergänzende Wellness-Anwendung, die begleitend zur üblichen sportmedizinischen Versorgung eingesetzt wird.',
-        'benefits.title': 'Vorteile für Athleten & Fachleute',
-        'benefit.1.title': 'Beschleunigte Regeneration',
-        'benefit.1.text': 'Unterstützt die natürlichen Selbstheilungsprozesse nach intensiver Belastung oder leichten Verletzungen.',
-        'benefit.2.title': 'Weniger Müdigkeit',
-        'benefit.2.text': 'Athletinnen und Athleten berichten von mehr Frische zwischen Einheiten und Wettkämpfen.',
-        'benefit.3.title': 'Nicht invasiv & ohne Medikamente',
-        'benefit.3.text': 'Keine Chemikalien, keine Nadeln, kein Strom – nur die Energie des eigenen Körpers.',
-        'benefit.4.title': 'Leicht zu integrieren',
-        'benefit.4.text': 'Ergänzt Physiotherapie, Massage und etablierte sportmedizinische Protokolle.',
-        'benefit.5.title': 'Mobil & effizient',
-        'benefit.5.text': 'Leichte Anwendung – geeignet für Praxis, Studio und Reisen.',
-        'benefit.6.title': 'Keine bekannten Nebenwirkungen',
-        'benefit.6.text': 'Es werden keine Fremdstoffe eingebracht; Fokus auf Unterstützung der natürlichen Regulation.',
-        'science.title': 'Die Wissenschaft, auf der wir aufbauen',
-        'science.p1':
-          'Unser Ansatz orientiert sich an Forschung zu Biophotonen und lichtbasierter Zellkommunikation, wie sie u. a. von Prof. Dr. Fritz-Albert Popp beschrieben wurde. LTS ersetzt keine medizinische Versorgung; es ist eine ergänzende Methode zur Unterstützung gesunder Regulation und Erholung.',
-        'science.p2':
-          'Wir entwickeln Partnerschaften mit Universitäten, Praktikerinnen/Praktikern und Teams, um Beobachtungsdaten und Falldokumentationen im sportlichen Umfeld zu erweitern.',
-        'science.card.title': 'Was LTS ist – und was nicht',
-        'science.card.li1': 'Ist: eine ergänzende Anwendung für Regeneration und Wohlbefinden.',
-        'science.card.li2': 'Ist nicht: ein Medizinprodukt oder Ersatz für professionelle Diagnose oder Behandlung.',
-        'science.card.li3': 'Aussagen: Wir kommunizieren verantwortungsvoll und fördern gemeinsam mit Partnern den Evidenzaufbau.',
-        'science.alert.bold': 'Hinweis:',
-        'science.alert.text': ' Ergebnisse variieren. Bei medizinischen Anliegen stets lizenzierte Gesundheitsfachpersonen konsultieren.',
-        'safety.title': 'Sicherheit & Eignung',
-        'safety.card1.title': 'Nicht invasiv',
-        'safety.card1.text': 'Keine Nadeln, keine Chemikalien, kein Strom. LTS nutzt ausschließlich die Energie des Körpers.',
-        'safety.card2.title': 'Keine bekannten Nebenwirkungen',
-        'safety.card2.text': 'Es werden keine Fremdmaterialien eingebracht, die im Energiesystem Reaktionen auslösen könnten.',
-        'safety.card3.title': 'Von Fachleuten eingesetzt',
-        'safety.card3.text': 'Entwickelt zur Unterstützung von Sportphysiotherapeuten bei der Betreuung von Athleten.',
-        'contact.title': 'Kontakt aufnehmen',
-        'contact.p1':
-          'Interessiert an LTS für Ihre Praxis oder Ihr Team? Sprechen wir über Pilotprojekte, Zertifizierungen und Schulungen für Anwender.',
-        'contact.email.label': 'Schreiben Sie uns:',
-        'contact.phone.label': 'Oder rufen Sie an: ',
-        'footer.link.research': 'Evidenz & Forschung',
-        'footer.link.safety': 'Sicherheit',
-        'footer.link.contact': 'Kontakt',
-        'footer.disclaimer':
-          'LTS ist eine ergänzende Wellness-Anwendung und diagnostiziert, behandelt, heilt oder verhindert keine Krankheiten. Medizinische Entscheidungen stets mit qualifizierten Fachpersonen treffen.',
-        'footer.rights': '© 2025 LTS Sport Support. Alle Rechte vorbehalten.'
-      };
-    
-      const dictionaries = { en: EN, de: DE };
-    
-      // --- Utilities ------------------------------------------------------------
-      const getParamLang = () => new URLSearchParams(location.search).get(PARAM);
-      const getStoredLang = () => localStorage.getItem('site_lang');
-      const setStoredLang = (v) => localStorage.setItem('site_lang', v);
-      const t = (lang, key) => (dictionaries[lang] && dictionaries[lang][key]) || EN[key] || '';
-    
-      // Safely set textContent
-      function setText(el, str) { if (el) el.textContent = str; }
-    
-      // Preserve inner span for hero bullets
-      function setHeroBullet(li, text) {
-        if (!li) return;
-        const bullet = li.querySelector('.bullet');
-        li.innerHTML = ''; // clear
-        if (bullet) li.appendChild(bullet); // keep the dot
-        li.append(' ' + text);
-      }
-    
-      // Preserve <span class="step-number"> in steps
-      function setHowStep(li, text) {
-        if (!li) return;
-        const num = li.querySelector('.step-number');
-        const nClone = num ? num.cloneNode(true) : null;
-        li.textContent = ''; // clear all
-        if (nClone) li.appendChild(nClone);
-        li.append(' ' + text);
-      }
-    
-      function applyTranslations(lang) {
-        // Header
-        const qEnd = (sel, hash) => document.querySelector(`${sel} a[href$="${hash}"]`);
+(function () {
+  const PARAM = 'lang';
+  const DEFAULT_LANG = 'en';
+  const supported = new Set(['en', 'de']);
 
-        setText(qEnd('header nav', '#how'),      t(lang,'nav.how'));
-        setText(qEnd('header nav', '#benefits'), t(lang,'nav.benefits'));
-        setText(qEnd('header nav', '#science'),  t(lang,'nav.science'));
-        setText(qEnd('header nav', '#safety'),   t(lang,'nav.safety'));
-        setText(qEnd('header nav', '#contact'),  t(lang,'nav.contact'));
+  const EN = {
+    'nav.how': 'How it works',
+    'nav.benefits': 'Benefits',
+    'nav.science': 'Science',
+    'nav.safety': 'Safety',
+    'nav.contact': 'Contact',
+    'hero.h1a': 'Faster recovery. Less fatigue.',
+    'hero.h1b': 'More performance.',
+    'hero.lead':
+      'LTS (Light Technology System) Sport Support provides top athletes with additional relief from sports injuries and muscle fatigue. The Light Technology System uses bio-optical channels—similar to acupuncture but without needles—to naturally promote the body’s own self-healing system.',
+    'hero.cta.primary': 'Talk to us',
+    'hero.cta.secondary': 'How it works',
+    'hero.bullet1': 'Drug-free',
+    'hero.bullet2': 'Non-invasive',
+    'hero.bullet3': 'Supports self-healing',
+    'how.title': 'How LTS works',
+    'how.p1':
+      'The Light Technology System uses active bio-optical channels—similar in concept to acupuncture meridians in Traditional Chinese Medicine, but without needles—to interact with the body’s light-information network. In injuries and fatigue, this information flow is disrupted; LTS aims to support restoration of healthy signaling so the body can do what it’s built to do: recover.',
+    'how.step1': 'Targeted application along bio-optical pathways related to the affected area.',
+    'how.step2': 'Gentle, non-electrical stimulation that works only with the body’s own energy.',
+    'how.step3': 'Supported self-regulation: normalized signaling can help reduce fatigue and speed natural recovery.',
+    'how.card.title': 'Designed for high-performance settings',
+    'how.card.li1': '• Sprint and endurance recovery between training blocks',
+    'how.card.li2': '• Muscle soreness and overuse management',
+    'how.card.li3': '• Support during return-to-play protocols',
+    'how.card.li4': '• On-the-go care at events and competitions',
+    'how.note.bold': 'Note:',
+    'how.note.text': ' LTS is a complementary wellness application used alongside standard sports-medicine care.',
+    'benefits.title': 'Benefits for athletes & practitioners',
+    'benefit.1.title': 'Accelerated recovery',
+    'benefit.1.text': 'Supports the body’s natural self-healing processes after intense effort or minor injuries.',
+    'benefit.2.title': 'Reduced fatigue',
+    'benefit.2.text': 'Athletes report feeling fresher between sessions and competitions.',
+    'benefit.3.title': 'Non-invasive & drug-free',
+    'benefit.3.text': 'No chemicals, needles or electricity—just the body’s own energy.',
+    'benefit.4.title': 'Easy to integrate',
+    'benefit.4.text': 'Complements physiotherapy, massage and standard sports-medicine protocols.',
+    'benefit.5.title': 'Portable & efficient',
+    'benefit.5.text': 'Lightweight application designed for clinics, gyms and travel.',
+    'benefit.6.title': 'No known side effects',
+    'benefit.6.text': 'No foreign substances introduced; focused on supporting natural regulation.',
+    'science.title': 'The science we build on',
+    'science.p1':
+      'Our approach is inspired by research into bio-photons and light-based cell communication, as explored by Prof. Dr. Fritz-Albert Popp and others. LTS does not replace medical care; it’s a complementary method intended to support healthy regulation and recovery.',
+    'science.p2':
+      'We are developing partnerships with universities, practitioners and teams to expand observational data and case documentation in athletic settings.',
+    'science.card.title': 'What LTS is — and isn’t',
+    'science.card.li1': 'Is: a complementary recovery and wellness application.',
+    'science.card.li2': 'Is not: a medical device or a substitute for professional diagnosis or treatment.',
+    'science.card.li3': 'Claims: We communicate responsibly and encourage evidence-building with partners.',
+    'science.alert.bold': 'Disclaimer:',
+    'science.alert.text': ' Results vary. Always consult licensed health professionals for medical concerns.',
+    'safety.title': 'Safety & suitability',
+    'safety.card1.title': 'Non-invasive',
+    'safety.card1.text': 'No needles, chemicals or electricity. LTS uses only the body’s own energy.',
+    'safety.card2.title': 'No known side effects',
+    'safety.card2.text': 'No foreign materials are introduced that could trigger reactions in the energy system.',
+    'safety.card3.title': 'Used by professionals',
+    'safety.card3.text': 'Designed to support sports physiotherapists in caring for athletes.',
+    'contact.title': 'Get in touch',
+    'contact.p1':
+      'Interested in LTS for your clinic or team? Let’s talk about pilot programs, certifications, and practitioner training.',
+    'contact.email.label': 'Email us:',
+    'contact.phone.label': 'Or call: ',
+    'footer.link.research': 'Evidence & Research',
+    'footer.link.safety': 'Safety',
+    'footer.link.contact': 'Contact',
+    'footer.disclaimer':
+      'LTS is a complementary wellness application and does not diagnose, treat, cure, or prevent diseases. Always consult qualified professionals for medical decisions.',
+    'footer.rights': '© 2025 LTS Sport Support. All rights reserved.'
+  };
 
-        setText(qEnd('footer .links', '#science'), t(lang,'footer.link.research'));
-        setText(qEnd('footer .links', '#safety'),  t(lang,'footer.link.safety'));
-        setText(qEnd('footer .links', '#contact'), t(lang,'footer.link.contact'));
+  const DE = {
+    'nav.how': 'So funktioniert es',
+    'nav.benefits': 'Vorteile',
+    'nav.science': 'Wissenschaft',
+    'nav.safety': 'Sicherheit',
+    'nav.contact': 'Kontakt',
+    'hero.h1a': 'Schnellere Regeneration. Weniger Müdigkeit.',
+    'hero.h1b': 'Mehr Leistung.',
+    'hero.lead':
+      'LTS (Light Technology System) Sport Support unterstützt Spitzenathletinnen und -athleten bei der Regeneration nach Sportverletzungen und bei Muskelermüdung. Das Light Technology System nutzt bio-optische Bahnen – ähnlich wie Akupunktur, jedoch ohne Nadeln – und fördert so auf natürliche Weise die körpereigene Selbstheilung.',
+    'hero.cta.primary': 'Kontakt aufnehmen',
+    'hero.cta.secondary': 'So funktioniert es',
+    'hero.bullet1': 'Ohne Medikamente',
+    'hero.bullet2': 'Nicht invasiv',
+    'hero.bullet3': 'Unterstützt die Selbstheilung',
+    'how.title': 'Wie LTS funktioniert',
+    'how.p1':
+      'Das Light Technology System nutzt aktive bio-optische Bahnen – in der Idee vergleichbar mit Akupunktur-Meridianen der Traditionellen Chinesischen Medizin, jedoch ohne Nadeln –, um mit dem lichtbasierten Informationsnetz des Körpers zu interagieren. Bei Verletzungen und Ermüdung ist dieser Informationsfluss gestört; LTS unterstützt die Wiederherstellung geordneter Signalwege, damit der Körper tun kann, wozu er gemacht ist: sich zu regenerieren.',
+    'how.step1': 'Gezielte Anwendung entlang bio-optischer Bahnen, die mit dem betroffenen Bereich zusammenhängen.',
+    'how.step2': 'Sanfte, nicht-elektrische Stimulation, die ausschließlich mit der körpereigenen Energie arbeitet.',
+    'how.step3': 'Unterstützte Selbstregulation: Normalisierte Signalwege können Müdigkeit verringern und die natürliche Regeneration beschleunigen.',
+    'how.card.title': 'Für Hochleistungs-Umgebungen entwickelt',
+    'how.card.li1': '• Regeneration nach Sprint- und Ausdauereinheiten zwischen Trainingsblöcken',
+    'how.card.li2': '• Umgang mit Muskelkater und Überlastung',
+    'how.card.li3': '• Unterstützung während Return-to-Play-Protokollen',
+    'how.card.li4': '• Unterwegs-Betreuung bei Events und Wettkämpfen',
+    'how.note.bold': 'Hinweis:',
+    'how.note.text': ' LTS ist eine ergänzende Wellness-Anwendung, die begleitend zur üblichen sportmedizinischen Versorgung eingesetzt wird.',
+    'benefits.title': 'Vorteile für Athleten & Fachleute',
+    'benefit.1.title': 'Beschleunigte Regeneration',
+    'benefit.1.text': 'Unterstützt die natürlichen Selbstheilungsprozesse nach intensiver Belastung oder leichten Verletzungen.',
+    'benefit.2.title': 'Weniger Müdigkeit',
+    'benefit.2.text': 'Athletinnen und Athleten berichten, dass sie sich zwischen Trainingseinheiten und Wettkämpfen spürbar frischer fühlen.',
+    'benefit.3.title': 'Nicht invasiv & ohne Medikamente',
+    'benefit.3.text': 'Keine Chemikalien, keine Nadeln, kein Strom – nur die Energie des eigenen Körpers.',
+    'benefit.4.title': 'Leicht zu integrieren',
+    'benefit.4.text': 'Ergänzt Physiotherapie, Massage und etablierte sportmedizinische Protokolle.',
+    'benefit.5.title': 'Mobil & effizient',
+    'benefit.5.text': 'Leichte Anwendung – geeignet für Praxis, Studio und Reisen.',
+    'benefit.6.title': 'Keine bekannten Nebenwirkungen',
+    'benefit.6.text': 'Es werden keine Fremdstoffe eingebracht; Fokus auf Unterstützung der natürlichen Regulation.',
+    'science.title': 'Die Wissenschaft, auf der wir aufbauen',
+    'science.p1':
+      'Unser Ansatz orientiert sich an Forschung zu Biophotonen und lichtbasierter Zellkommunikation, wie sie u. a. von Prof. Dr. Fritz-Albert Popp beschrieben wurde. LTS ersetzt keine medizinische Versorgung; es ist eine ergänzende Methode zur Unterstützung gesunder Regulation und Erholung.',
+    'science.p2':
+      'Wir entwickeln Partnerschaften mit Universitäten, Praktikerinnen/Praktikern und Teams, um Beobachtungsdaten und Falldokumentationen im sportlichen Umfeld zu erweitern.',
+    'science.card.title': 'Was LTS ist – und was nicht',
+    'science.card.li1': 'Ist: eine ergänzende Anwendung für Regeneration und Wohlbefinden.',
+    'science.card.li2': 'Ist nicht: ein Medizinprodukt oder Ersatz für professionelle Diagnose oder Behandlung.',
+    'science.card.li3': 'Aussagen: Wir kommunizieren verantwortungsvoll und fördern gemeinsam mit Partnern den Evidenzaufbau.',
+    'science.alert.bold': 'Hinweis:',
+    'science.alert.text': ' Ergebnisse variieren. Bei medizinischen Anliegen stets lizenzierte Gesundheitsfachpersonen konsultieren.',
+    'safety.title': 'Sicherheit & Eignung',
+    'safety.card1.title': 'Nicht invasiv',
+    'safety.card1.text': 'Keine Nadeln, keine Chemikalien, kein Strom. LTS nutzt ausschließlich die Energie des Körpers.',
+    'safety.card2.title': 'Keine bekannten Nebenwirkungen',
+    'safety.card2.text': 'Es werden keine Fremdmaterialien eingebracht, die im Energiesystem Reaktionen auslösen könnten.',
+    'safety.card3.title': 'Von Fachpersonen eingesetzt',
+    'safety.card3.text': 'Entwickelt zur Unterstützung von Sportphysiotherapeuten bei der Betreuung von Athleten.',
+    'contact.title': 'Kontakt aufnehmen',
+    'contact.p1':
+      'Interessiert an LTS für Ihre Praxis oder Ihr Team? Sprechen wir über Pilotprojekte, Zertifizierungen und Schulungen für Anwenderinnen und Anwender.',
+    'contact.email.label': 'Schreiben Sie uns:',
+    'contact.phone.label': 'Oder rufen Sie an: ',
+    'footer.link.research': 'Evidenz & Forschung',
+    'footer.link.safety': 'Sicherheit',
+    'footer.link.contact': 'Kontakt',
+    'footer.disclaimer':
+      'LTS ist eine ergänzende Wellness-Anwendung und diagnostiziert, behandelt, heilt oder verhindert keine Krankheiten. Medizinische Entscheidungen stets mit qualifizierten Fachpersonen treffen.',
+    'footer.rights': '© 2025 LTS Sport Support. Alle Rechte vorbehalten.'
+  };
 
-    
-        // Hero
-        setText(document.querySelector('.hero .content h1:nth-of-type(1)'), t(lang,'hero.h1a'));
-        setText(document.querySelector('.hero .content h1:nth-of-type(2)'), t(lang,'hero.h1b'));
-        setText(document.querySelector('.hero .content p'), t(lang,'hero.lead'));
-        setText(document.querySelector('.hero .actions a.primary'), t(lang,'hero.cta.primary'));
-        setText(document.querySelector('.hero .actions a.secondary'), t(lang,'hero.cta.secondary'));
-    
-        const heroLis = document.querySelectorAll('.hero .feature-list li');
-        setHeroBullet(heroLis[0], t(lang,'hero.bullet1'));
-        setHeroBullet(heroLis[1], t(lang,'hero.bullet2'));
-        setHeroBullet(heroLis[2], t(lang,'hero.bullet3'));
-    
-        // How
-        setText(document.querySelector('#how h2'), t(lang,'how.title'));
-        setText(document.querySelector('#how p'), t(lang,'how.p1'));
-        const howSteps = document.querySelectorAll('#how .steps li');
-        setHowStep(howSteps[0], t(lang,'how.step1'));
-        setHowStep(howSteps[1], t(lang,'how.step2'));
-        setHowStep(howSteps[2], t(lang,'how.step3'));
-    
-        setText(document.querySelector('#how .side-card h3'), t(lang,'how.card.title'));
-        const howLis = document.querySelectorAll('#how .side-card ul li');
-        setText(howLis[0], t(lang,'how.card.li1'));
-        setText(howLis[1], t(lang,'how.card.li2'));
-        setText(howLis[2], t(lang,'how.card.li3'));
-        setText(howLis[3], t(lang,'how.card.li4'));
-    
-        const note = document.querySelector('#how .note');
-        if (note) note.innerHTML = `<strong>${t(lang,'how.note.bold')}</strong>${t(lang,'how.note.text')}`;
-    
-        // Benefits (iterate instead of nth-child)
-        const benefitCards = document.querySelectorAll('#benefits .benefits-grid .card');
-        const bKeys = [
-          ['benefit.1.title','benefit.1.text'],
-          ['benefit.2.title','benefit.2.text'],
-          ['benefit.3.title','benefit.3.text'],
-          ['benefit.4.title','benefit.4.text'],
-          ['benefit.5.title','benefit.5.text'],
-          ['benefit.6.title','benefit.6.text']
-        ];
-        benefitCards.forEach((card, i) => {
-          const h3 = card.querySelector('h3');
-          const p = card.querySelector('p');
-          if (!bKeys[i]) return;
-          setText(h3, t(lang, bKeys[i][0]));
-          setText(p,  t(lang, bKeys[i][1]));
-        });
-    
-        // Science
-        setText(document.querySelector('#science h2'), t(lang,'science.title'));
-        const sciPs = document.querySelectorAll('#science p');
-        setText(sciPs[0], t(lang,'science.p1'));
-        setText(sciPs[1], t(lang,'science.p2'));
-        setText(document.querySelector('#science .side-card h3'), t(lang,'science.card.title'));
-        const sciLis = document.querySelectorAll('#science .side-card ul li');
-        setText(sciLis[0], t(lang,'science.card.li1'));
-        setText(sciLis[1], t(lang,'science.card.li2'));
-        setText(sciLis[2], t(lang,'science.card.li3'));
-    
-        const alert = document.querySelector('#science .alert');
-        if (alert) alert.innerHTML = `<strong>${t(lang,'science.alert.bold')}</strong>${t(lang,'science.alert.text')}`;
-    
-        // Safety
-        setText(document.querySelector('#safety h2'), t(lang,'safety.title'));
-        const safetyCards = document.querySelectorAll('#safety .safety-grid .card');
-        const sKeys = [
-          ['safety.card1.title','safety.card1.text'],
-          ['safety.card2.title','safety.card2.text'],
-          ['safety.card3.title','safety.card3.text']
-        ];
-        safetyCards.forEach((card, i) => {
-          const h3 = card.querySelector('h3');
-          const p = card.querySelector('p');
-          if (!sKeys[i]) return;
-          setText(h3, t(lang, sKeys[i][0]));
-          setText(p,  t(lang, sKeys[i][1]));
-        });
-    
-        // Contact
-        setText(document.querySelector('#contact .contact-info h2'), t(lang,'contact.title'));
-        setText(document.querySelector('#contact .contact-info p'), t(lang,'contact.p1'));
-        setText(document.querySelector('#contact .contact-card p:first-of-type'), t(lang,'contact.email.label'));
-        const call = document.querySelector('#contact .contact-card .call');
-        if (call) {
-          const numSpan = call.querySelector('span');
-          const num = numSpan ? numSpan.textContent : '';
-          call.innerHTML = t(lang,'contact.phone.label') + (num ? `<span>${num}</span>` : '');
-        }
-    
-        // Footer
-        setText(document.querySelector('footer .links a[href="#science"]'), t(lang,'footer.link.research'));
-        setText(document.querySelector('footer .links a[href="#safety"]'), t(lang,'footer.link.safety'));
-        setText(document.querySelector('footer .links a[href="#contact"]'), t(lang,'footer.link.contact'));
-        setText(document.querySelector('footer .disclaimer'), t(lang,'footer.disclaimer'));
-        // Rights line (leave © and year as provided in DOM if you prefer)
-        setText(document.querySelector('footer .brand span:last-of-type'), t(lang,'footer.rights'));
-      }
-    
-      function setLang(lang, { updateUrl = true } = {}) {
-        if (!supported.has(lang)) lang = DEFAULT_LANG;
-    
-        document.documentElement.setAttribute('lang', lang);
-        setStoredLang(lang);
-    
-        if (updateUrl) {
-          const url = new URL(location.href);
-          url.searchParams.set(PARAM, lang);
-          history.replaceState({}, '', url);
-        }
-    
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-          btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
-        });
-    
-        // Keep internal anchor links carrying ?lang= (but don't duplicate)
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-          const raw = a.getAttribute('href'); // e.g. "#contact"
-          if (!raw || raw[0] !== '#') return;
-          const url = new URL(location.href);
-          const qs = url.searchParams.toString();
-          a.href = url.pathname + (qs ? '?' + qs : '') + raw;
-        });
-    
-        applyTranslations(lang);
-    
-        const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
-        const deBtn = document.querySelector('.lang-btn[data-lang="de"]');
-        if (enBtn) enBtn.title = (lang === 'de') ? 'Englisch' : 'English';
-        if (deBtn) deBtn.title = (lang === 'de') ? 'Deutsch' : 'German';
-      }
-    
-      const initial =
-        getParamLang() ||
-        getStoredLang() ||
-        document.documentElement.getAttribute('lang') ||
-        DEFAULT_LANG;
-    
-      setLang(initial, { updateUrl: true });
-    
-      document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.lang-btn');
-        if (!btn) return;
-        setLang(btn.dataset.lang, { updateUrl: true });
-      });
-    })();
-    </script>
-    
-    
+  const dictionaries = { en: EN, de: DE };
+
+  const getParamLang = () => new URLSearchParams(location.search).get(PARAM);
+  const getStoredLang = () => localStorage.getItem('site_lang');
+  const setStoredLang = (v) => localStorage.setItem('site_lang', v);
+  const t = (lang, key) => (dictionaries[lang] && dictionaries[lang][key]) || EN[key] || '';
+
+  function setText(el, str) { if (el) el.textContent = str; }
+
+  function setHeroBullet(li, text) {
+    if (!li) return;
+    const bullet = li.querySelector('.bullet');
+    li.innerHTML = '';
+    if (bullet) li.appendChild(bullet);
+    li.append(' ' + text);
+  }
+
+  function setHowStep(li, text) {
+    if (!li) return;
+    const num = li.querySelector('.step-number');
+    const nClone = num ? num.cloneNode(true) : null;
+    li.textContent = '';
+    if (nClone) li.appendChild(nClone);
+    li.append(' ' + text);
+  }
+
+  function applyTranslations(lang) {
+    const qEnd = (sel, hash) => document.querySelector(`${sel} a[href$="${hash}"]`);
+
+    // header + footer links
+    setText(qEnd('header nav', '#how'),      t(lang,'nav.how'));
+    setText(qEnd('header nav', '#benefits'), t(lang,'nav.benefits'));
+    setText(qEnd('header nav', '#science'),  t(lang,'nav.science'));
+    setText(qEnd('header nav', '#safety'),   t(lang,'nav.safety'));
+    setText(qEnd('header nav', '#contact'),  t(lang,'nav.contact'));
+
+    setText(qEnd('footer .links', '#science'), t(lang,'footer.link.research'));
+    setText(qEnd('footer .links', '#safety'),  t(lang,'footer.link.safety'));
+    setText(qEnd('footer .links', '#contact'), t(lang,'footer.link.contact'));
+
+    // Hero
+    setText(document.querySelector('.hero .content h1:nth-of-type(1)'), t(lang,'hero.h1a'));
+    setText(document.querySelector('.hero .content h1:nth-of-type(2)'), t(lang,'hero.h1b'));
+    setText(document.querySelector('.hero .content p'),                 t(lang,'hero.lead'));
+    setText(document.querySelector('.hero .actions a.primary'),         t(lang,'hero.cta.primary'));
+    setText(document.querySelector('.hero .actions a.secondary'),       t(lang,'hero.cta.secondary'));
+
+    const heroLis = document.querySelectorAll('.hero .feature-list li');
+    setHeroBullet(heroLis[0], t(lang,'hero.bullet1'));
+    setHeroBullet(heroLis[1], t(lang,'hero.bullet2'));
+    setHeroBullet(heroLis[2], t(lang,'hero.bullet3'));
+
+    // How
+    setText(document.querySelector('#how h2'), t(lang,'how.title'));
+    setText(document.querySelector('#how p'),  t(lang,'how.p1'));
+    const howSteps = document.querySelectorAll('#how .steps li');
+    setHowStep(howSteps[0], t(lang,'how.step1'));
+    setHowStep(howSteps[1], t(lang,'how.step2'));
+    setHowStep(howSteps[2], t(lang,'how.step3'));
+
+    setText(document.querySelector('#how .side-card h3'), t(lang,'how.card.title'));
+    const howLis = document.querySelectorAll('#how .side-card ul li');
+    setText(howLis[0], t(lang,'how.card.li1'));
+    setText(howLis[1], t(lang,'how.card.li2'));
+    setText(howLis[2], t(lang,'how.card.li3'));
+    setText(howLis[3], t(lang,'how.card.li4'));
+
+    const note = document.querySelector('#how .note');
+    if (note) note.innerHTML = `<strong>${t(lang,'how.note.bold')}</strong>${t(lang,'how.note.text')}`;
+
+    // Benefits (title + cards)
+    setText(document.querySelector('#benefits h2'), t(lang,'benefits.title'));
+    const benefitCards = document.querySelectorAll('#benefits .benefits-grid .card');
+    const bKeys = [
+      ['benefit.1.title','benefit.1.text'],
+      ['benefit.2.title','benefit.2.text'],
+      ['benefit.3.title','benefit.3.text'],
+      ['benefit.4.title','benefit.4.text'],
+      ['benefit.5.title','benefit.5.text'],
+      ['benefit.6.title','benefit.6.text']
+    ];
+    benefitCards.forEach((card, i) => {
+      const h3 = card.querySelector('h3');
+      const p  = card.querySelector('p');
+      if (!bKeys[i]) return;
+      setText(h3, t(lang, bKeys[i][0]));
+      setText(p,  t(lang, bKeys[i][1]));
+    });
+
+    // Science
+    setText(document.querySelector('#science h2'), t(lang,'science.title'));
+    const sciPs = document.querySelectorAll('#science p');
+    setText(sciPs[0], t(lang,'science.p1'));
+    setText(sciPs[1], t(lang,'science.p2'));
+    setText(document.querySelector('#science .side-card h3'), t(lang,'science.card.title'));
+    const sciLis = document.querySelectorAll('#science .side-card ul li');
+    setText(sciLis[0], t(lang,'science.card.li1'));
+    setText(sciLis[1], t(lang,'science.card.li2'));
+    setText(sciLis[2], t(lang,'science.card.li3'));
+
+    const alert = document.querySelector('#science .alert');
+    if (alert) alert.innerHTML = `<strong>${t(lang,'science.alert.bold')}</strong>${t(lang,'science.alert.text')}`;
+
+    // Safety
+    setText(document.querySelector('#safety h2'), t(lang,'safety.title'));
+    const safetyCards = document.querySelectorAll('#safety .safety-grid .card');
+    const sKeys = [
+      ['safety.card1.title','safety.card1.text'],
+      ['safety.card2.title','safety.card2.text'],
+      ['safety.card3.title','safety.card3.text']
+    ];
+    safetyCards.forEach((card, i) => {
+      const h3 = card.querySelector('h3');
+      const p  = card.querySelector('p');
+      if (!sKeys[i]) return;
+      setText(h3, t(lang, sKeys[i][0]));
+      setText(p,  t(lang, sKeys[i][1]));
+    });
+
+    // Contact
+    setText(document.querySelector('#contact .contact-info h2'), t(lang,'contact.title'));
+    setText(document.querySelector('#contact .contact-info p'),  t(lang,'contact.p1'));
+    setText(document.querySelector('#contact .contact-card p:first-of-type'), t(lang,'contact.email.label'));
+    const call = document.querySelector('#contact .contact-card .call');
+    if (call) {
+      const numSpan = call.querySelector('span');
+      const num = numSpan ? numSpan.textContent : '';
+      call.innerHTML = t(lang,'contact.phone.label') + (num ? `<span>${num}</span>` : '');
+    }
+
+    // Footer
+    setText(document.querySelector('footer .links a[href="#science"]'), t(lang,'footer.link.research'));
+    setText(document.querySelector('footer .links a[href="#safety"]'),  t(lang,'footer.link.safety'));
+    setText(document.querySelector('footer .links a[href="#contact"]'), t(lang,'footer.link.contact'));
+    setText(document.querySelector('footer .disclaimer'), t(lang,'footer.disclaimer'));
+    setText(document.querySelector('footer .brand span:last-of-type'), t(lang,'footer.rights'));
+  }
+
+  function setLang(lang, { updateUrl = true } = {}) {
+    if (!supported.has(lang)) lang = DEFAULT_LANG;
+
+    document.documentElement.setAttribute('lang', lang);
+    setStoredLang(lang);
+
+    if (updateUrl) {
+      const url = new URL(location.href);
+      url.searchParams.set(PARAM, lang);
+      history.replaceState({}, '', url);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+    });
+
+    // Keep internal anchor links carrying ?lang=
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      const raw = a.getAttribute('href');
+      if (!raw || raw[0] !== '#') return;
+      const url = new URL(location.href);
+      const qs = url.searchParams.toString();
+      a.href = url.pathname + (qs ? '?' + qs : '') + raw;
+    });
+
+    applyTranslations(lang);
+
+    const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
+    const deBtn = document.querySelector('.lang-btn[data-lang="de"]');
+    if (enBtn) enBtn.title = (lang === 'de') ? 'Englisch' : 'English';
+    if (deBtn) deBtn.title = (lang === 'de') ? 'Deutsch' : 'German';
+  }
+
+  const initial =
+    getParamLang() ||
+    getStoredLang() ||
+    document.documentElement.getAttribute('lang') ||
+    DEFAULT_LANG;
+
+  setLang(initial, { updateUrl: true });
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lang-btn');
+    if (btn) {
+      setLang(btn.dataset.lang, { updateUrl: true });
+    }
+
+    // close mobile menu after clicking a nav link
+    const link = e.target.closest('nav a[href^="#"]');
+    if (link) {
+      const toggle = document.getElementById('nav-toggle');
+      if (toggle) toggle.checked = false;
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
