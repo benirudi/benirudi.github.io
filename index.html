@@ -1200,15 +1200,6 @@ footer .disclaimer {
       btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
     });
 
-    // Keep internal anchor links carrying ?lang=
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      const raw = a.getAttribute('href');
-      if (!raw || raw[0] !== '#') return;
-      const url = new URL(location.href);
-      const qs = url.searchParams.toString();
-      a.href = url.pathname + (qs ? '?' + qs : '') + raw;
-    });
-
     applyTranslations(lang);
 
     const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
@@ -1243,3 +1234,4 @@ footer .disclaimer {
 
 </body>
 </html>
+
